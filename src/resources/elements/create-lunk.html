@@ -1,0 +1,21 @@
+<template>
+  <div class="col-md-12" if.bind='!lunkId'>
+    <div class="form-group">
+      <label for="create-lunk">Make me a Lunk &trade; <sup>*</sup>:</label>
+      <textarea class="form-control" rows="5" id="create-lunk" value.bind="message" placeholder="Type in your message to turn into a lunk"> </textarea>
+    </div>
+    <div class="pull-right">
+      <small><sup>*</sup>Lunks will last for 7 days from the time of creation and are only viewable once</small><br/>
+    </div>
+    <button class="btn btn-success" click.delegate="create()">Create</button>
+  </div>
+  <div class="col-md-12" if.bind='lunkId'>
+
+    Share the following link:
+    <div class="well">
+      ${baseUrl}/v/${lunkId}
+    </div>
+  </div>
+
+
+</template>

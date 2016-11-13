@@ -91,6 +91,7 @@
         "name": "vendor-bundle.js",
         "prepend": [
           "node_modules/bluebird/js/browser/bluebird.core.js",
+          "node_modules/whatwg-fetch/fetch.js",
           "scripts/require.js"
         ],
         "dependencies": [
@@ -115,6 +116,8 @@
           "aurelia-task-queue",
           "aurelia-templating",
           "aurelia-templating-binding",
+          "aurelia-fetch-client",
+          "jquery",
           {
             "name": "text",
             "path": "../scripts/text"
@@ -135,7 +138,6 @@
             "main": "aurelia-testing",
             "env": "dev"
           },
-          "jquery",
           {
             "name": "bootstrap",
             "path": "../node_modules/bootstrap/dist",
@@ -144,6 +146,14 @@
             "exports": "$",
             "resources": [
               "css/bootstrap.css"
+            ]
+          },
+          {
+            "name": "nprogress",
+            "path": "../node_modules/nprogress",
+            "main": "nprgress",
+            "resources": [
+              "nprogress.css"
             ]
           }
         ]
