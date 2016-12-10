@@ -1,5 +1,6 @@
 import {HttpClient, json} from 'aurelia-fetch-client';
 import * as env from 'environment';
+import openpgp from 'openpgp';
 
 let httpClient = new HttpClient();
 
@@ -10,25 +11,30 @@ export class CreateLunk {
     this.created = false;
     this.lunkId = null;
     this.baseUrl = env.default.baseUrl;
+    this.password = '';
     console.log(env.default.api);
   }
 
   create() {
     this.created = true;
     console.log(this.message);
-    this.sendLunk(this.message);
-    //this.encryptMessage(this.message);
-    //Send the message to the server
-    //Get the response back and display the lunk created view
+    this.password = this.randomString(64);
+    this.encryptMessage(this.message, this.password).then( (encrypted) => {
+      this.sendLunk(encrypted);
+    });
+    //this.sendLunk(this.message);
   }
 
-  encryptMessage(message) {
-    httpClient.fetch('package.json')
-      .then(response => response.json())
-      .then(data=>{
-        console.log(data);
-        console.log(data.description);
-      });
+  encryptMessage(message, password) {
+    let options = {
+      data: message, // input as String
+      passwords: password // multiple passwords possible
+    };
+
+    return openpgp.encrypt(options).then(function(ciphertext) {
+      let encrypted = ciphertext.data; // '-----BEGIN PGP MESSAGE ... END PGP MESSAGE-----'
+      return encrypted;
+    });
   }
 
   sendLunk(lunk) {
@@ -47,6 +53,20 @@ export class CreateLunk {
       }
       console.log(data);
     });
+  }
+
+  randomString(length) {
+    let charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    let i;
+    let result = '';
+    if (window.crypto && window.crypto.getRandomValues) {
+      let values = new Uint32Array(length);
+      window.crypto.getRandomValues(values);
+      for (i = 0; i < length; i++) {
+        result += charset[values[i] % charset.length];
+      }
+      return result;
+    }
   }
 
 }

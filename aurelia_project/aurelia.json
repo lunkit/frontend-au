@@ -118,6 +118,7 @@
           "aurelia-templating-binding",
           "aurelia-fetch-client",
           "jquery",
+          "openpgp",
           {
             "name": "text",
             "path": "../scripts/text"

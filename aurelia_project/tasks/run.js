@@ -1,6 +1,7 @@
 import gulp from 'gulp';
 import browserSync from 'browser-sync';
 import historyApiFallback from 'connect-history-api-fallback/lib';
+import modRewrite from 'connect-modrewrite';
 import project from '../aurelia.json';
 import build from './build';
 import {CLIOptions} from 'aurelia-cli';
@@ -28,10 +29,14 @@ let serve = gulp.series(
       logLevel: 'silent',
       server: {
         baseDir: ['.'],
-        middleware: [historyApiFallback(), function(req, res, next) {
-          res.setHeader('Access-Control-Allow-Origin', '*');
-          next();
-        }]
+        middleware: [
+          historyApiFallback(),
+          function(req, res, next) {
+            res.setHeader('Access-Control-Allow-Origin', '*');
+            next();
+          },
+          modRewrite(['!\\.\\w+$ /index.html [L]'])
+        ]
       }
     }, function(err, bs) {
       let urls = bs.options.get('urls').toJS();
