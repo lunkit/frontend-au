@@ -10,7 +10,8 @@ export class View {
   constructor() {
     this.lunk = null;
     this.password = null;
-    this.decodedLunk = '';
+    this.decodedLunk = 'Please Enter Password to view Message.';
+    this.noLunk = false;
   }
 
   activate(params, routeConfig) {
@@ -37,6 +38,7 @@ export class View {
           this.decode();
         }
       } else {
+        this.noLunk = true;
         this.lunk = data.message;
       }
     });

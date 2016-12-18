@@ -1,23 +1,29 @@
 <template>
   <require from="./resources/elements/create-lunk"></require>
-  <div class="row">
-    <div class="col-md-6">
-      <h5>Encrypted message:</h5>
-      <div class="well">
-        ${lunk}
-      </div>
-    </div>
-    <div class="col-md-6">
+  <div class="row" if.bind='!noLunk'>
+    <div class="col-md-6" >
+      <h5>Decyrpted message:</h5>
       <div class="input-group">
         <input type="text" value.bind='password' class="form-control" placeholder="Password">
         <span class="input-group-btn">
           <button class="btn btn-default" click.delegate='decode()' type="button">Decrypt!</button>
         </span>
       </div><!-- /input-group -->
-      <h5>Decyrpted message:</h5>
+
       <div class="well">
         ${decodedLunk}
       </div>
+    </div>
+    <div class="col-md-6">
+      <h5>Encrypted message:</h5>
+      <div class="well">
+        ${lunk}
+      </div>
+    </div>
+  </div>
+  <div class="row" if.bind="noLunk">
+    <div class="col-md-12 text-center">
+      <h1>💣 That lunk has been destroyed 💣</h1>
     </div>
   </div>
   <div class="row">
